@@ -1,0 +1,25 @@
+- generic [ref=e1]:
+  - article
+  - img [ref=e3]
+  - generic [ref=e7]:
+    - link "szqlj.cloudflareaccess.com" [ref=e8] [cursor=pointer]:
+      - /url: ""
+      - generic [ref=e9]: szqlj.cloudflareaccess.com
+    - generic [ref=e10]:
+      - generic [ref=e11]: auth.qiliangjia.one
+      - generic [ref=e12]: Sign in with your company email ending with @qiliangjia.com or @roibest.com, the verification code may take up to 1 minute. if you do not receive it, check your spam folder or resend
+    - generic [ref=e13]:
+      - generic [ref=e14]: "Sign in with:"
+      - link "GitHub ・ GitHub" [ref=e17] [cursor=pointer]:
+        - /url: https://github.com/login/oauth/authorize?client_id=Ov23lis0E30zyjHzuAlX&redirect_uri=https%3A%2F%2Fszqlj.cloudflareaccess.com%2Fcdn-cgi%2Faccess%2Fcallback&response_type=code&scope=user%3Aemail%2Cread%3Aorg&state=1930d66e76b11b86782b2c8a3d6df851d68138ba1f33d238732ce1b4490d490c.JTdCJTIyaWF0JTIyJTNBMTc3MzIxMDA1NyUyQyUyMmF1dGhEb21haW4lMjIlM0ElMjJzenFsai5jbG91ZGZsYXJlYWNjZXNzLmNvbSUyMiUyQyUyMmhvc3RuYW1lJTIyJTNBJTIyY29uc29sZS10ZXN0LWRlZXBjbGljay5xaWxpYW5namlhLm9uZSUyMiUyQyUyMnJlZGlyZWN0VVJMJTIyJTNBJTIyJTJGcHJvbW90aW9uYWwtbGluayUyMiUyQyUyMmF1ZCUyMiUzQSUyMjQ0YTBiMGQ2YmE2M2ZmYjQ5ZmQ5NDNlNTlmNDk5OTVhMzNkYWE5OGNlMWQ1ZjkzZjdkNjc1Mzg4ODhhNTAzYzYlMjIlMkMlMjJpc1NhbWVTaXRlTm9uZUNvbXBhdGlibGUlMjIlM0F0cnVlJTJDJTIyaXNJRFBUZXN0JTIyJTNBZmFsc2UlMkMlMjJpc1JlZnJlc2glMjIlM0FmYWxzZSUyQyUyMm5vbmNlJTIyJTNBJTIybmFvcnltY1V3QWlENUM0aG8lMjIlMkMlMjJpZHBJZCUyMiUzQSUyMmMxZDk0NTJjLWQwZTItNDFhZS05NDkwLWY5Y2U2NjMzOGRmZCUyMiUyQyUyMnNlcnZpY2VfdG9rZW5faWQlMjIlM0ElMjIlMjIlMkMlMjJzZXJ2aWNlX3Rva2VuX3N0YXR1cyUyMiUzQWZhbHNlJTJDJTIyYXV0aF9zdGF0dXMlMjIlM0ElMjJOT05FJTIyJTJDJTIyaXNfd2FycCUyMiUzQWZhbHNlJTJDJTIyaXNfZ2F0ZXdheSUyMiUzQWZhbHNlJTJDJTIybXRsc19hdXRoJTIyJTNBJTdCJTIyY2VydF9pc3N1ZXJfc2tpJTIyJTNBJTIyJTIyJTJDJTIyY2VydF9wcmVzZW50ZWQlMjIlM0FmYWxzZSUyQyUyMmNlcnRfc2VyaWFsJTIyJTNBJTIyJTIyJTJDJTIyY2VydF9pc3N1ZXJfZG4lMjIlM0ElMjIlMjIlMkMlMjJhdXRoX3N0YXR1cyUyMiUzQSUyMk5PTkUlMjIlN0QlMkMlMjJhcHBTZXNzaW9uSGFzaCUyMiUzQSUyMmRlMmMzMjE1ZWRlOTAzMTc5OTQ1ODc0MDQ3ODA1NmYwZWZlZWI2Y2Y3ZDYwMWJmMzZkYzk1NDNiZTRhNWY4OWQlMjIlN0Q%253D
+        - img [ref=e19]
+        - generic [ref=e21]: GitHub ・ GitHub
+      - generic [ref=e22]:
+        - generic [ref=e23]: Get a login code emailed to you
+        - generic [ref=e24]:
+          - generic [ref=e25]:
+            - generic [ref=e26]: Email
+            - textbox "example@email.com" [active] [ref=e27]
+          - button "Send me a code" [ref=e29] [cursor=pointer]
+    - generic [ref=e30]: "Disclaimer: for internal use only within the company"
+  - img [ref=e32]

@@ -1,0 +1,5 @@
+[    3563ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_CLOSED @ https://o4507825731862528.ingest.us.sentry.io/api/4510537457860608/envelope/?sentry_version=7&sentry_key=2674be632e49568ed8b82118acb0e7cb&sentry_client=sentry.javascript.vue%2F10.30.0:0
+[    4710ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://console-api-test.deepclick.com/api/console/account/info:0
+[    4714ms] [ERROR] 获取账户信息失败: UnauthorizedError @ https://console-test-deepclick.qiliangjia.one/js/bootstrap-CIAwe5-u.js:239
+[    4931ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_CLOSED @ https://o4507825731862528.ingest.us.sentry.io/api/4510537457860608/envelope/?sentry_version=7&sentry_key=2674be632e49568ed8b82118acb0e7cb&sentry_client=sentry.javascript.vue%2F10.30.0:0
+[    8202ms] [ERROR] Failed to load resource: the server responded with a status of 429 () @ https://o4507825731862528.ingest.us.sentry.io/api/4510537457860608/envelope/?sentry_version=7&sentry_key=2674be632e49568ed8b82118acb0e7cb&sentry_client=sentry.javascript.vue%2F10.30.0:0
