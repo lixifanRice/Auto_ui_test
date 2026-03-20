@@ -1,229 +1,229 @@
-# Playwright 自动化测试框架
+# Auto UI Test (Playwright + pytest)
 
-这是一个基于 Playwright 和 pytest 的自动化测试框架，采用页面对象模型（Page Object Model）设计模式。
+基于 `pytest + playwright` 的 UI 自动化项目，当前已落地「回流链接创建」主流程测试，采用 POM（页面对象）组织方式。
 
-## 项目结构
+## 项目现状
 
+- 运行框架：`pytest` + `pytest-playwright`
+- 默认浏览器：`chromium` + `chrome channel`（见 `pytest.ini`）
+- 认证方式：`conftest.py` 中自动注入
+  - `CF_Authorization` Cookie
+  - `AUTH_BEARER` 请求头
+- 当前核心业务用例：`tests/promotion_management/test_backflow_link.py::test_create_backflow_link`
+
+## 目录结构
+
+```text
+Auto_ui_test/
+├── conftest.py
+├── pytest.ini
+├── requirements.txt
+├── env.example
+├── run_tests.sh
+├── run_tests.bat
+├── pages/
+│   ├── base_page.py
+│   ├── home_page.py
+│   └── promotional_link_page.py
+├── tests/
+│   ├── __init__.py
+│   ├── promotion_management/
+│   │   ├── test_backflow_link.py
+│   │   ├── test_product_library.py
+│   │   └── test_domain.py
+│   ├── backflow_features/
+│   │   ├── test_backflow_landing_page.py
+│   │   ├── test_audience_backflow.py
+│   │   ├── test_smart_shield.py
+│   │   ├── test_complaint_backflow.py
+│   │   ├── test_pwa_backflow.py
+│   │   ├── test_push_backflow.py
+│   │   └── test_returning_user_landing_page.py
+│   └── finance/
+│       └── test_wallet.py
+├── utils/
+│   ├── config.py
+│   ├── logger.py
+│   └── helpers.py
+├── test_data/
+├── logs/
+└── reports/
 ```
-playwright_learn/
-├── pages/              # 页面对象模型
-│   ├── __init__.py
-│   ├── base_page.py    # 基础页面类
-│   └── home_page.py    # 示例页面对象
-├── tests/              # 测试用例
-│   ├── __init__.py
-│   └── test_example.py # 示例测试用例
-├── utils/              # 工具类
-│   ├── __init__.py
-│   ├── config.py       # 配置管理
-│   ├── logger.py       # 日志工具
-│   └── helpers.py      # 辅助函数
-├── reports/            # 测试报告（自动生成）
-├── screenshots/        # 截图（自动生成）
-├── logs/               # 日志文件（自动生成）
-├── conftest.py         # pytest 配置文件
-├── pytest.ini          # pytest 配置
-├── requirements.txt    # 项目依赖
-└── README.md           # 项目说明
-```
 
-## 安装步骤
+## 环境要求
 
-### 1. 安装 Python 依赖
+- Python `3.9+`
+- 推荐使用项目内虚拟环境 `venv`
+
+## 安装
+
+1. 创建并激活虚拟环境
 
 ```bash
-# 激活虚拟环境（如果使用虚拟环境）
-source venv/bin/activate  # macOS/Linux
-# 或
-venv\Scripts\activate     # Windows
+python3 -m venv venv
+source venv/bin/activate
+```
 
-# 安装依赖
+Windows:
+
+```bat
+python -m venv venv
+venv\Scripts\activate
+```
+
+2. 安装依赖
+
+```bash
 pip install -r requirements.txt
 ```
 
-### 2. 安装 Playwright 浏览器
+3. 安装 Playwright 浏览器
 
 ```bash
 playwright install
 ```
 
-### 3. 配置环境变量
+## 配置 `.env`
 
-复制 `.env.example` 为 `.env` 并修改配置：
-
-```bash
-cp .env.example .env
-```
-
-编辑 `.env` 文件，设置你的测试环境配置：
-
-```env
-BASE_URL=https://your-test-site.com
-HEADLESS=True
-VIEWPORT_WIDTH=1920
-VIEWPORT_HEIGHT=1080
-```
-
-## 使用方法
-
-### 运行所有测试
+复制示例文件：
 
 ```bash
-pytest
+cp env.example .env
 ```
 
-### 运行指定标记的测试
+最少需要确认这些项：
+
+- `BASE_URL`
+- `HEADLESS`
+- `BROWSER_TIMEOUT`
+- `VIEWPORT_WIDTH` / `VIEWPORT_HEIGHT`
+
+若目标环境有登录/CF 校验，需要配置：
+
+- `CF_Authorization`
+- `AUTH_BEARER`
+
+业务用例可选参数（不填则自动选首项）：
+
+- `PROMO_PRODUCT_KEYWORD`
+- `PROMO_MEDIA_KEYWORD`
+- `PROMO_ATTRIBUTION_TOOL_KEYWORD`
+- `PROMO_DOMAIN_KEYWORD`
+- `PROMO_REGION_KEYWORD`
+- `PROMO_EVENT_KEYWORD`
+- `PROMO_TIMES_KEYWORD`
+- `PROMO_TARGET_URL`
+
+## 模块划分（对应左侧菜单）
+
+- `promotion_management`（推广管理）
+  - `backflow_link`（回流链接）
+  - `product_library`（产品库）
+  - `domain`（域名）
+- `backflow_features`（回流功能）
+  - `backflow_landing_page`（回流落地页）
+  - `audience_backflow`（受众回流）
+  - `smart_shield`（智能绿盾）
+  - `complaint_backflow`（投诉回流）
+  - `pwa_backflow`（PWA回流）
+  - `push_backflow`（推送回流）
+  - `returning_user_landing_page`（老客落地页）
+- `finance`（财务）
+  - `wallet`（钱包）
+
+说明：除 `backflow_link` 外，其他菜单项当前为占位用例（`skip`），用于先完成模块分层。
+
+## 运行测试
+
+说明：如果你本机没有全局 `pytest`，请用 `./venv/bin/python -m pytest`。
+
+运行全部用例：
 
 ```bash
-# 运行冒烟测试
-pytest -m smoke
-
-# 运行回归测试
-pytest -m regression
-
-# 运行登录相关测试
-pytest -m login
+./venv/bin/python -m pytest
 ```
 
-### 运行指定测试文件
+运行“推广管理”模块：
 
 ```bash
-pytest tests/test_example.py
+./venv/bin/python -m pytest tests/promotion_management
 ```
 
-### 运行指定测试用例
+运行单条核心用例：
 
 ```bash
-pytest tests/test_example.py::test_example_basic
+./venv/bin/python -m pytest tests/promotion_management/test_backflow_link.py::test_create_backflow_link -vv -s
 ```
 
-### 并行运行测试
+按标记运行：
 
 ```bash
-pytest -n auto
+./venv/bin/python -m pytest -m smoke
+./venv/bin/python -m pytest -m regression
+./venv/bin/python -m pytest -m promotion_management
+./venv/bin/python -m pytest -m backflow_features
+./venv/bin/python -m pytest -m finance
 ```
 
-### 生成 HTML 报告
+并行运行：
 
 ```bash
-pytest --html=reports/report.html --self-contained-html
+./venv/bin/python -m pytest -n auto
 ```
 
-### 调试模式（非无头模式）
+## 默认运行配置（来自 `pytest.ini`）
 
-在 `.env` 文件中设置 `HEADLESS=False`，或运行时指定：
+- `--browser=chromium`
+- `--browser-channel=chrome`
+- 自动生成 HTML 报告：
+  - `reports/report.html`
 
-```bash
-HEADLESS=False pytest
-```
+因此通常不需要每次额外传浏览器参数。
 
-## 编写测试用例
+## 报告与产物
 
-### 1. 创建页面对象
+- HTML 报告：`reports/report.html`
+- 失败截图：`reports/screenshots/`
+- 日志文件：`logs/test_YYYYMMDD.log`
+- 可选视频（开启 `RECORD_VIDEO=True`）：`reports/videos/`
 
-在 `pages/` 目录下创建页面对象类，继承 `BasePage`：
+## 关键实现说明
 
-```python
-from pages.base_page import BasePage
-from playwright.sync_api import Page
-
-class LoginPage(BasePage):
-    USERNAME_INPUT = "#username"
-    PASSWORD_INPUT = "#password"
-    LOGIN_BUTTON = "button[type='submit']"
-    
-    def __init__(self, page: Page):
-        super().__init__(page)
-    
-    def login(self, username: str, password: str):
-        self.fill(self.USERNAME_INPUT, username)
-        self.fill(self.PASSWORD_INPUT, password)
-        self.click(self.LOGIN_BUTTON)
-```
-
-### 2. 编写测试用例
-
-在 `tests/` 目录下创建测试文件：
-
-```python
-import pytest
-from playwright.sync_api import Page
-from pages.login_page import LoginPage
-
-@pytest.mark.login
-def test_user_login(page: Page):
-    login_page = LoginPage(page)
-    login_page.navigate("https://example.com/login")
-    login_page.login("username", "password")
-    assert "dashboard" in page.url
-```
-
-## 测试标记
-
-框架支持以下测试标记：
-
-- `@pytest.mark.smoke` - 冒烟测试
-- `@pytest.mark.regression` - 回归测试
-- `@pytest.mark.login` - 登录相关测试
-- `@pytest.mark.api` - API测试
-
-## 配置说明
-
-### pytest.ini
-
-pytest 配置文件，包含测试发现规则、标记定义等。
-
-### conftest.py
-
-pytest 配置文件，包含全局 fixtures：
-- `browser` - 浏览器实例
-- `page` - 页面实例
-- `base_url` - 基础URL
-- 自动截图功能（测试失败时）
-
-### utils/config.py
-
-配置管理类，统一管理所有配置项。
-
-## 最佳实践
-
-1. **使用页面对象模型**：将页面元素和操作封装在页面对象中
-2. **使用标记分类测试**：使用 pytest 标记对测试进行分类
-3. **合理使用等待**：使用框架提供的等待方法，避免硬编码 sleep
-4. **错误处理**：测试失败时自动截图，便于调试
-5. **日志记录**：使用 logger 记录关键操作和错误信息
-6. **环境隔离**：使用 `.env` 文件管理不同环境的配置
-
-## 报告和日志
-
-- **HTML 报告**：运行测试后，在 `reports/report.html` 查看测试报告
-- **截图**：测试失败时，截图保存在 `reports/screenshots/`
-- **日志**：日志文件保存在 `logs/` 目录，按日期命名
+- `conftest.py`
+  - 统一创建 browser context
+  - 注入认证信息（Cookie/Header）
+  - 失败自动截图
+- `pages/promotional_link_page.py`
+  - 封装“新建回流链接”流程
+  - 兼容新页签打开
+  - 处理动态表单、抽屉选择、投诉回流开关
+- `tests/promotion_management/test_backflow_link.py`
+  - 核心业务测试入口
 
 ## 常见问题
 
-### Q: 如何切换浏览器？
+1. 命令找不到 `pytest`
 
-A: 在 `conftest.py` 中修改 `browser_type_launch_args` fixture，或使用 pytest 参数：
+使用：
 
 ```bash
-pytest --browser chromium
-pytest --browser firefox
-pytest --browser webkit
+./venv/bin/python -m pytest
 ```
 
-### Q: 如何设置超时时间？
+2. 进入 Cloudflare 登录页
 
-A: 在 `.env` 文件中设置 `BROWSER_TIMEOUT` 和 `DEFAULT_TIMEOUT`。
+检查 `.env` 中：
 
-### Q: 如何调试测试？
+- `CF_Authorization`
+- `AUTH_BEARER`
+- `BASE_URL` 域名是否匹配
 
-A: 设置 `HEADLESS=False` 可以看到浏览器操作，或使用 `pytest --pdb` 进入调试模式。
+3. 页面可见但用例失败
 
-## 贡献
+- 先看 `reports/report.html`
+- 再看 `reports/screenshots/` 失败截图和 `logs/` 日志
 
-欢迎提交 Issue 和 Pull Request！
+## 安全建议
 
-## 许可证
-
-MIT License
+- 不要在仓库提交真实的 `CF_Authorization`、`AUTH_BEARER`、账号密码。
+- 建议将 `env.example` 保持为占位符示例值，仅在本地 `.env` 使用真实凭证。

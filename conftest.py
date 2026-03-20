@@ -15,13 +15,29 @@ load_dotenv()
 
 
 @pytest.fixture(scope="session")
-def browser_type_launch_args():
-    """浏览器启动参数"""
-    return {
+def browser_type_launch_args(pytestconfig):
+    """浏览器启动参数（兼容 pytest-playwright 命令行参数）"""
+    launch_args = {
         "headless": os.getenv("HEADLESS", "True").lower() == "true",
         "slow_mo": int(os.getenv("SLOW_MO", "0")),
         "timeout": int(os.getenv("BROWSER_TIMEOUT", "60000")),
     }
+
+    # 允许通过命令行覆盖运行模式
+    if pytestconfig.getoption("--headed"):
+        launch_args["headless"] = False
+
+    # 支持 --browser-channel=chrome/msedge 等参数
+    browser_channel = pytestconfig.getoption("--browser-channel")
+    if browser_channel:
+        launch_args["channel"] = browser_channel
+
+    # 支持 --slowmo 优先于 .env 的 SLOW_MO
+    slowmo = pytestconfig.getoption("--slowmo")
+    if slowmo:
+        launch_args["slow_mo"] = slowmo
+
+    return launch_args
 
 
 @pytest.fixture(scope="session")
@@ -50,6 +66,8 @@ def browser_context_args():
 def page(browser: Browser, browser_context_args: dict) -> Generator[Page, None, None]:
     """创建新的页面实例
     注意：pytest-playwright 会自动提供 browser fixture
+    认证策略：这里会为每个测试自动注入 AUTH_BEARER 和 CF_Authorization（如果 .env 配置了）。
+    因此业务测试文件不需要再重复处理认证逻辑。
     """
     # 过滤掉 None 值
     context_args = {k: v for k, v in browser_context_args.items() if v is not None}
@@ -137,4 +155,3 @@ def pytest_runtest_makereport(item, call):
     outcome = yield
     rep = outcome.get_result()
     setattr(item, "rep_" + rep.when, rep)
-

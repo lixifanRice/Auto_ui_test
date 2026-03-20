@@ -3,6 +3,7 @@
 所有页面对象都应该继承此类
 """
 from playwright.sync_api import Page, Locator, expect
+from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
 from typing import Optional
 from utils.logger import logger
 from utils.config import Config
@@ -18,8 +19,12 @@ class BasePage:
     def navigate(self, url: str):
         """导航到指定URL"""
         logger.info(f"导航到: {url}")
-        self.page.goto(url, timeout=Config.NAVIGATION_TIMEOUT)
-        self.page.wait_for_load_state("networkidle")
+        self.page.goto(url, timeout=Config.NAVIGATION_TIMEOUT, wait_until="domcontentloaded")
+        # 某些站点（如挑战页/长连接）长期无法达到 networkidle，这里降级为软等待
+        try:
+            self.page.wait_for_load_state("networkidle", timeout=5000)
+        except PlaywrightTimeoutError:
+            logger.warning("页面未达到 networkidle，继续执行后续步骤")
     
     def click(self, selector: str, timeout: Optional[int] = None):
         """点击元素"""
@@ -117,4 +122,3 @@ class BasePage:
     def expect_text(self, selector: str, text: str, timeout: Optional[int] = None):
         """断言元素文本"""
         expect(self.page.locator(selector)).to_have_text(text, timeout=timeout or self.timeout)
-
